@@ -1,10 +1,13 @@
 
 import './App.css';
+import TelaInicial from './components/TelaInicial';
+
 
 function App() {
   return (
     <div className="App">
-      <h2>palavra secreta</h2>
+
+      <TelaInicial />
     </div>
   );
 }
