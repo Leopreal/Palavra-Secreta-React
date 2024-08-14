@@ -29,6 +29,12 @@ function App() {
   const [CategoriaSelecionada, setCategoriaSelecionada] = useState("")
   const [letras, setLetras] = useState([])
 
+  const [letrasAdivinhadas, setLetrasAdivinhadas] = useState([])
+  const [letrasErradas, setLetrasErradas] = useState([])
+  const [tentativas, setTentativas] = useState(3)
+  const [pontuacao, setPontuacao] = useState(0)
+
+
 
   const selecionaPalavraECategoria = () => {
     const categorias = Object.keys(palavras)
@@ -58,7 +64,7 @@ function App() {
     // estados
     setPalavraSelecionada(palavra)
     setCategoriaSelecionada(categoria)
-    setLetras(letras)
+    setLetras(LetrasDasPalavras)
 
     setEstagioJogo(estagios[1].nome)
   }
@@ -76,11 +82,21 @@ function App() {
   return (
     <div className="App">
       {estagioJogo === 'comeco' && <TelaInicial comecarJogo={comecarJogo} />}
-      {estagioJogo === 'jogando' && <Jogando verificaLetra={verificaLetra} />}
+      {estagioJogo === 'jogando' && 
+      <Jogando 
+      verificaLetra={verificaLetra} 
+      PalavraSelecionada={PalavraSelecionada} 
+      CategoriaSelecionada={CategoriaSelecionada} 
+      letras={letras} 
+      letrasAdivinhadas={letrasAdivinhadas} 
+      letrasErradas={letrasErradas} 
+      tentativas={tentativas} 
+      pontuacao={pontuacao} 
+      />}
       {estagioJogo === 'fim' && <FimDeJogo reinicia={reinicia} />}
     </div>
   );
 }
-console.log("teste")
+
 
 export default App;
