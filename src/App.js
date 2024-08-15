@@ -36,30 +36,29 @@ function App() {
 
 
 
-  const selecionaPalavraECategoria = () => {
+  const selecionaPalavraECategoria = useCallback(() => {
     const categorias = Object.keys(palavras)
     const categoria = categorias[Math.floor(Math.random() * Object.keys(categorias).length)] // pegando cada categoria e passando uma categoria aleatoria pega do array "categorias"
 
-    console.log(categoria)
 
     const palavra = palavras[categoria][Math.floor(Math.random() * palavras[categoria].length)]
 
-    console.log(palavra)
+    
+  
 
     return {palavra, categoria}
-  }
+  }, [palavras])
 
 
   // funcao que comeca o jogo
-  const comecarJogo = () => {
+  const comecarJogo = useCallback(() => {
+    limpandoLetras()
+
     // funcao para categoria e palavra selecionad
     const {palavra, categoria} = selecionaPalavraECategoria()
 
     let LetrasDasPalavras = palavra.split("")
     LetrasDasPalavras = LetrasDasPalavras.map((letra) => letra.toLowerCase())
-
-    console.log(palavra, categoria)
-    console.log(LetrasDasPalavras)
 
     // estados
     setPalavraSelecionada(palavra)
@@ -67,7 +66,7 @@ function App() {
     setLetras(LetrasDasPalavras)
 
     setEstagioJogo(estagios[1].nome)
-  }
+  }, [selecionaPalavraECategoria])
 
   // funcao de processar a letra
   const verificaLetra = (letra) => {
@@ -88,17 +87,48 @@ function App() {
         ...atualLetraserradas,
         letrasNormalizadas,
       ])
+
+      setTentativas((atualTentativa) => atualTentativa - 1)
     }
 
 
   }
 
-  console.log(letrasAdivinhadas)
-    console.log(letrasErradas)
+  const limpandoLetras = () => {
+    setLetrasAdivinhadas([])
+    setLetrasErradas([])
+    
+  }
+
+  useEffect(() => {
+    if(tentativas <= 0){
+      limpandoLetras()
+
+      setEstagioJogo(estagios[2].nome)
+    }
+
+
+  }, [tentativas])
+
+  // checando a condicao de vitoria
+  useEffect(() => {
+    const letrasUnicas = [...new Set(letras)]
+
+   if(letrasAdivinhadas.length === letrasUnicas.length){
+    setPontuacao((atualPontuacao) => (atualPontuacao += 100))
+
+    comecarJogo()
+   }
+
+
+  }, [letrasAdivinhadas, letras, comecarJogo])
 
 
   // funcao reiniciar jogo
   const reinicia = () => {
+    setPontuacao()
+    setTentativas(3)
+
     setEstagioJogo(estagios[0].nome)
   }
 
@@ -116,7 +146,7 @@ function App() {
       tentativas={tentativas} 
       pontuacao={pontuacao} 
       />}
-      {estagioJogo === 'fim' && <FimDeJogo reinicia={reinicia} />}
+      {estagioJogo === 'fim' && <FimDeJogo reinicia={reinicia} pontuacao={pontuacao} />}
     </div>
   );
 }

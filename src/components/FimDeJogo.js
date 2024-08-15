@@ -2,11 +2,15 @@ import React from 'react'
 
 import './FimDeJogo.css'
 
-const FimDeJogo = ({reinicia}) => {
+const FimDeJogo = ({reinicia, pontuacao}) => {
   return (
     <div>
-        <h1>GameOver</h1>
-        <button onClick={reinicia}>Começar jogo</button>
+        <h1>Fim de Jogo</h1>
+        <h2>
+          Sua pontuação foi <span>{pontuacao}</span>
+        </h2>
+        <button onClick={reinicia}>Recomeçar Jogo</button>
+
     </div>
   )
 }
