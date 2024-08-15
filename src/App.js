@@ -70,9 +70,32 @@ function App() {
   }
 
   // funcao de processar a letra
-  const verificaLetra = () => {
-    setEstagioJogo(estagios[2].nome)
+  const verificaLetra = (letra) => {
+    const letrasNormalizadas = letra.toLowerCase()
+
+    // checando se a letra ja foi utilizada
+
+    if(letrasAdivinhadas.includes(letrasNormalizadas) || letrasErradas.includes(letrasNormalizadas)){
+      return
+    } 
+    if(letras.includes(letrasNormalizadas)) {
+      setLetrasAdivinhadas((atualLetraAdivinhada) => [
+        ...atualLetraAdivinhada,
+        letrasNormalizadas,
+      ])
+    } else {
+      setLetrasErradas((atualLetraserradas) => [
+        ...atualLetraserradas,
+        letrasNormalizadas,
+      ])
+    }
+
+
   }
+
+  console.log(letrasAdivinhadas)
+    console.log(letrasErradas)
+
 
   // funcao reiniciar jogo
   const reinicia = () => {

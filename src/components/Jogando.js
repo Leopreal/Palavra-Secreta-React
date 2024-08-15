@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 
 import './Jogando.css'
 
@@ -11,6 +11,21 @@ const Jogando = (
   letrasErradas, 
   tentativas, 
   pontuacao}) => {
+
+    const [letra, setLetras] = useState("")
+
+    const RefAtualLetra = useRef(null)
+
+    const handleSubmit = (e) => {
+      e.preventDefault()
+
+      verificaLetra(letra)
+
+      setLetras("")
+
+      RefAtualLetra.current.focus() // funcao para que ao usuario mandar a letra ele volte ao bloco de texto automaticamente
+    }
+
   return (
     <div className='game'>
       <p className='pontos'>
@@ -32,8 +47,16 @@ const Jogando = (
       </div>
         <div className="letraContainer">
           <p>tente adivinhar uma letra da palavra</p>
-          <form>
-            <input type="text" name="letra" maxLength={1} required />
+          <form onSubmit={handleSubmit}>
+            <input 
+            type="text" 
+            name="letra" 
+            maxLength={1} 
+            required 
+            onChange={(e) => setLetras(e.target.value)}
+            value={letra}
+            ref={RefAtualLetra}
+            />
             <button>Jogar!</button>
           </form>
           <div className="letrasErradas">

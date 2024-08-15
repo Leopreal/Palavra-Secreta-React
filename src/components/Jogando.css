@@ -2,11 +2,11 @@
     font-size: 2.5em;
   }
   
-  .points span {
+  .pontos span {
     font-weight: bold;
   }
   
-  .tip span {
+  .dica span {
     color: #ecfa00;
   }
   
@@ -17,7 +17,7 @@
     display: flex;
   }
   
-  .letras,
+  .letra,
   .quadradoBranco {
     font-size: 70px;
     line-height: 1.5;
